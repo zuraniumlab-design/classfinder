@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CLASSFINDER – Kelas B Sains Informasi</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📅</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+:root{--bg:#cadccf;--ink:#2a2d2a;--mint:#cfebd6;--olive:#7c7640;--sage:#a8c3a5;--sage2:#8aa388;--green:#457b58;--red:#d96767;--cream:#f5f6e8;--ok:#b9ecb0;--okt:#3f8f3a;--bad:#f2b0b0;--badt:#b04545;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1f2621;--ink:#e8efe9}}
+:root[data-theme="dark"]{--bg:#1f2621;--ink:#e8efe9}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box;margin:0;font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif}
+body{height:100%;background:var(--bg);color:var(--ink);display:flex;align-items:center;justify-content:center}
+button{border:0;background:none;cursor:pointer;color:inherit}
+button:focus-visible,input:focus-visible{outline:2px solid var(--cream);outline-offset:2px}
+.phone{width:100%;height:100%;max-height:100dvh;background:var(--mint);position:relative;overflow:hidden;display:flex;flex-direction:column}
+@media (min-width:520px){.phone{width:390px;height:780px;border:10px solid #111;border-radius:44px;box-shadow:0 20px 50px rgba(0,0,0,.25)}}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;color:var(--olive);font-weight:700;font-size:22px;flex:none}
+.hdr .t{display:flex;align-items:center;gap:8px}
+.hdr svg{stroke:var(--olive)}
+.back{font-size:22px;margin-right:6px}
+.panel{flex:1;background:var(--olive);border-radius:28px 28px 0 0;padding:16px 16px 14px;overflow-y:auto;color:var(--cream)}
+.panel h2{font-size:15px;font-weight:600}
+.panel .sub{font-size:11px;opacity:.9;margin-bottom:10px}
+.card{background:var(--sage);color:#4a5236;border-radius:14px;padding:11px 13px;margin-bottom:10px;text-align:left;width:100%;display:block}
+.card b{display:block;font-size:12.5px;color:#3f4a34}
+.card small{display:block;font-size:10.5px;margin-top:2px}
+.row{display:flex;gap:6px;align-items:center;font-size:10.5px;margin-top:5px}
+.row svg{stroke:var(--olive);flex:none}
+.nav{flex:none;display:flex;justify-content:space-around;padding:10px 6px calc(10px + env(safe-area-inset-bottom,0px));background:var(--mint)}
+.nav button{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;position:relative}
+.nav button svg{stroke:var(--olive)}
+.nav button.on{background:var(--olive)}.nav button.on svg{stroke:var(--mint)}
+.nav i{position:absolute;top:6px;right:7px;width:9px;height:9px;border-radius:50%;background:var(--red)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat{background:var(--sage);color:#4a5236;border-radius:14px;padding:12px;text-align:left}
+.stat svg{stroke:var(--olive)}.stat strong{display:block;font-size:22px}.stat span{font-size:10.5px}
+.alert{background:var(--red);color:#fff;border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;margin-bottom:14px}
+.alert b{font-size:12px;display:block}.alert small{font-size:9.5px;opacity:.95}
+.search{display:flex;background:var(--sage);border-radius:12px;overflow:hidden;margin-bottom:12px;width:100%}
+.search input{flex:1;border:0;background:none;padding:11px 12px;font-size:12px;color:#3f4a34;outline:0}
+.search input::placeholder{color:#7f9378}
+.search span{background:var(--sage2);width:42px;display:grid;place-items:center}
+.search span svg{stroke:var(--olive)}
+.time{display:inline-block;background:var(--sage2);color:#fff;font-size:10px;font-weight:600;padding:4px 8px;border-radius:8px;margin-right:10px;text-align:center;line-height:1.3}
+.item{display:flex;align-items:center}
+.item b{font-size:12px}
+.tag{display:inline-block;background:var(--red);color:#fff;font-size:8.5px;padding:2px 8px;border-radius:8px;margin-top:4px}
+.days{display:flex;gap:6px;margin-bottom:12px}
+.days button{flex:1;padding:8px 0;border-radius:10px;background:var(--sage);color:#4a5236;font-size:11px;font-weight:500}
+.days button.on{background:var(--cream);font-weight:700}
+.more{color:var(--olive);font-size:10.5px;font-weight:700;border-top:1px solid #b9b99a;margin-top:8px;padding-top:6px;display:block;width:100%;text-align:right}
+.detail{font-size:10.5px;margin-top:6px;line-height:1.5}
+.btn{width:100%;background:var(--sage2);color:var(--cream);border-radius:10px;padding:8px;font-size:11px;font-weight:600;margin-top:8px}
+.fld{margin-top:18px}.fld label{font-size:11px;opacity:.7;display:block}
+.fld div{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--cream)}
+.fld svg{stroke:var(--cream);flex:none}
+.fld input{flex:1;background:none;border:0;color:var(--cream);padding:8px 0;font-size:13px;outline:0}
+.login{border-radius:70px;background:var(--sage2);color:var(--cream);padding:11px 36px;font-weight:600;font-size:13px;display:block;margin:28px auto 0}
+.splash{display:flex;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--olive);font-weight:800;font-size:24px;animation:in .6s ease}
+@keyframes in{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.menu{display:flex;align-items:center;gap:10px;background:var(--sage);color:#3f4a34;border-radius:10px;padding:13px;font-size:12.5px;font-weight:600;width:100%;margin-bottom:12px}
+.menu svg{stroke:var(--olive)}
+.av{width:78px;height:78px;border-radius:50%;background:#b8cdb6;display:grid;place-items:center;margin:0 auto 6px}
+.av svg{stroke:var(--olive)}
+.ctr{text-align:center;color:var(--olive);font-size:12px;font-weight:700;margin-bottom:14px}
+.ctr small{display:block;font-weight:500;font-size:10.5px}
+.badge{background:var(--mint);color:var(--olive);font-size:9px;padding:2px 8px;border-radius:8px;font-weight:600}
+.empty{text-align:center;font-size:12px;opacity:.85;padding:24px 8px}
+.toast{position:absolute;left:16px;right:16px;bottom:84px;background:var(--cream);color:var(--olive);font-size:12px;font-weight:600;padding:10px 14px;border-radius:12px;animation:in .25s ease}
+
+.cd{background:var(--cream);color:#4a5236;border-radius:14px;padding:12px 14px;margin-bottom:14px}.cd.live{background:var(--ok)}.cd b{font-size:12.5px;display:block}.cd small{font-size:10.5px;display:block}.cd .big{font-size:22px;font-weight:800;color:var(--olive);margin:4px 0;font-variant-numeric:tabular-nums}
+textarea{width:100%;border:0;border-radius:10px;background:var(--cream);color:#3f4a34;padding:9px 10px;font-size:12px;resize:none;outline:0}
+.err{color:#ffd9d9;font-size:11px;margin-top:12px;text-align:center}
+.hint{font-size:10px;opacity:.7;margin-top:10px;text-align:center}
+.src{font-size:9.5px;opacity:.6;text-align:center;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="phone" id="app" aria-live="polite"></div>
+<script>
+// ===== KONFIGURASI SUPABASE: placeholder diganti otomatis oleh Build Command Vercel (lihat panduan) =====
+const SUPABASE_URL='__SUPABASE_URL__', SUPABASE_KEY='__SUPABASE_KEY__';
+const LIVE=/^https?:/.test(SUPABASE_URL)&&SUPABASE_KEY.length>20&&!!window.supabase;
+let db=null,pengumuman=[];
+// ===== DATA BAWAAN (fallback bila Supabase belum diisi) =====
+const STU=[["2610414041","Daffa Dhia Alvaro Temas Praba"],["2610414042","Felisya Hurina Zahirah"],["2610414043","Dimas Rafif Syaputra"],["2610414044","Raina Rizqi Adilla"],["2610414045","Ariel Rayhans Wijaya"],["2610414046","Ulvi Mevianti"],["2610414047","Daniel Ahmad Rahman"],["2610414048","Melisa Rizqi Septiyani"],["2610414049","Zahirani Nurrahma"],["2610414050","Muhammad Daffa Fadhilah"],["2610414051","Devita Apriyani Kirana"],["2610414052","Wahyu Komarudin"],["2610414053","Ravida Azmi"],["2610414054","Azka Mayyasa Putri Hartadi"],["2610414055","Nailah Afifah Sri Mulyani"],["2610414056","Nadisya Feby Putri Guntoro"],["2610414057","Rana Afifah Ahmad"],["2610414058","Aqila Fahma Diina"],["2610414059","Balqis Fathiya Mysha Daulay"],["2610414060","Angelica Cahyadi"],["2610414061","Hanif Ramadhani Lutfi"],["2610414062","Deo Ario Nouval Rolland"],["2610414063","Azzam Alfathan Lazuardi"],["2610414064","Jasmine Putri Azzahra"],["2610414065","Gandewa Rangin Anggita"],["2610414066","Fachri Ahmad"],["2610414067","Zulfan Restu Angkasa"],["2610414068","Reysy Dheca Paays"],["2610414069","Agung Darmawan"],["2610414070","Dhefina Caesa Claudya"],["2610414071","Yakobus Gustaf Pattiwael"],["2610414072","Rafi Murfid Fadillah"],["2610414073","Muhammad Gading Yuwono Al Satar"],["2610414074","Khanza Linda Shafira"],["2610414075","Sasqia Ayudia Putri Rahardjo"],["2610414076","Renova Tio Murni Pakpahan"],["2610414077","Arini Rahmawati"],["2610414078","Cahaya Cinta Romadona"],["2610414079","Muhammad Firman Ramadhan"],["2610414080","Nadya Irmaputri Raharjo"]].map(([nim,nama])=>({nim,nama}));
+const K='UPTBAHASA - Ged.Kartini ';
+const JAD=[
+ ['Senin','Teknologi Informasi dan Komunikasi','09.40','12.10',K+'R404'],
+ ['Selasa','Literasi Digital','07.10','09.40','F.201'],
+ ['Selasa','Bahasa Inggris','09.40','12.10','F.402'],
+ ['Rabu','Pengantar Ilmu Informasi','07.10','09.40','F.201'],
+ ['Kamis','Bahasa Indonesia','07.10','08.50',K+'R304'],
+ ['Kamis','Pancasila','08.50','10.30',K+'R305'],
+ ['Jumat','Kepemimpinan','08.50','10.30',K+'R305'],
+ ['Jumat','Pendidikan Agama','10.30','12.10',K+'R304']
+].map(([hari,mk,a,b,r])=>({hari,mk,a,b,r}));
+let students=STU, jadwal=JAD, source='Data bawaan';
+async function loadRemote(){
+ if(!LIVE)return;
+ try{
+  db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  const [m,j]=await Promise.all([db.from('mahasiswa').select('nim,nama').order('nim'),db.from('jadwal_kelas').select('hari,mata_kuliah,mulai,selesai,ruang').order('id')]);
+  if(m.error||j.error||!m.data.length||!j.data.length)return;
+  students=m.data;jadwal=j.data.map(x=>({hari:x.hari,mk:x.mata_kuliah,a:x.mulai,b:x.selesai,r:x.ruang}));source='Supabase';await loadPost();
+  if(S.scr==='profil'||S.scr==='login')draw();
+ }catch(e){console.warn('Supabase tidak terhubung, pakai data bawaan',e)}
+}
+async function loadPost(){
+ if(!db)return;
+ const r=await db.from('pengumuman').select('id,nim,nama,kategori,isi,created_at').order('created_at',{ascending:false}).limit(20);
+ if(!r.error){pengumuman=r.data;if(S.scr==='home'&&document.activeElement.id!=='pi')draw()}
+}
+async function addPost(kategori,isi){
+ if(db){const r=await db.from('pengumuman').insert({nim:S.user.nim,nama:S.user.nama,kategori,isi}).select().single();
+  if(r.error)return false;pengumuman.unshift(r.data)}
+ else pengumuman.unshift({nim:S.user.nim,nama:S.user.nama,kategori,isi,created_at:new Date().toISOString()});
+ return true;
+}
+const hx=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const toMin=t=>{const[a,b]=t.split('.').map(Number);return a*60+b};
+const p2=n=>String(n).padStart(2,'0');
+const fmt=s=>{const d=Math.floor(s/86400),j=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return (d?d+' hari ':'')+(j?j+' jam ':'')+p2(m)+' mnt '+p2(s%60)+' dtk'};
+function nextClass(now=new Date()){
+ const dow=(now.getDay()+6)%7,ns=now.getHours()*3600+now.getMinutes()*60+now.getSeconds();
+ for(let o=0;o<8;o++){
+  const d=DAYS[(dow+o)%7];if(!d)continue;
+  const list=byDay(d).slice().sort((x,y)=>toMin(x.a)-toMin(y.a));
+  for(const c of list){
+   const s=toMin(c.a)*60,e=toMin(c.b)*60;
+   if(o===0&&ns>=s&&ns<e)return{c,d,live:true,sec:e-ns};
+   const diff=o*86400+s-ns;if(diff>0)return{c,d,live:false,sec:diff};
+  }
+ }
+ return null;
+}
+const banner=()=>{const n=nextClass();if(!n)return'';
+ return `<div class="cd ${n.live?'live':''}"><small>${n.live?'Sedang berlangsung':'Kelas berikutnya'}</small><b>${n.c.mk}</b><div class="big" id="cdt" data-live="${n.live}">${fmt(n.sec)}</div><small>${n.live?'lagi sampai '+n.c.b+' · '+n.c.r:n.d+' '+n.c.a+' · '+n.c.r}</small><button class="btn" data-share="cd">Bagikan ke WhatsApp</button></div>`};
+const CATS=['Tugas','Dosen','Info'];
+const ago=iso=>{const m=Math.max(0,Math.round((Date.now()-new Date(iso))/60000));return m<1?'baru saja':m<60?m+' mnt lalu':m<1440?Math.floor(m/60)+' jam lalu':Math.floor(m/1440)+' hari lalu'};
+const mading=()=>`<h2 style="margin:16px 0 2px">Mading Kelas</h2><p class="sub">Info tugas dan kabar dosen dari teman sekelas${LIVE?'':' · mode demo, belum tersimpan permanen'}</p>
+ <div class="card"><div class="days" style="margin-bottom:8px">${CATS.map(c=>`<button class="${S.cat===c?'on':''}" data-cat="${c}">${c}</button>`).join('')}</div>
+ <textarea id="pi" maxlength="280" rows="3" placeholder="Tulis info untuk kelas…" aria-label="Isi pengumuman">${hx(S.draft||'')}</textarea>
+ ${S.perr?`<p class="err" style="color:#b04545;margin-top:6px" role="alert">${S.perr}</p>`:''}
+ <button class="btn" data-act="post">Kirim ke mading</button></div>
+ ${pengumuman.slice(0,5).map((p,i)=>`<div class="card"><b>${hx(p.nama)}</b><small>${hx(p.kategori)} · ${ago(p.created_at)}</small><div class="detail">${hx(p.isi)}</div><button class="more" data-share="${i}">Bagikan ke WhatsApp</button></div>`).join('')||'<p class="empty">Belum ada pengumuman. Jadi yang pertama!</p>'}`;
+function shareTo(k){let t='';
+ if(k==='cd'){const n=nextClass();if(!n)return;t=`CLASSFINDER · ${n.c.mk}, ${n.d} ${n.c.a}–${n.c.b} di ${n.c.r}`}
+ else{const p=pengumuman[+k];if(!p)return;t=`[Mading Kelas B] ${p.kategori}: ${p.isi} (dari ${p.nama})`}
+ window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank','noopener');
+}
+const I={
+ home:'<path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',
+ cal:'<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/>',
+ search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>',
+ bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 0 0 4 0"/>',
+ user:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M6 19c2-4 10-4 12 0"/>',
+ pin:'<path d="M12 22s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+ id:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M14 10h4M14 14h4M6 16c1-2 5-2 6 0"/>',
+ edit:'<path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/>',
+ help:'<circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17v.5"/>',
+ out:'<path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4M16 8l4 4-4 4M20 12H9"/>',
+ warn:'<circle cx="12" cy="12" r="10"/><path d="M12 7v6M12 16.5v.5"/>',
+ chev:'<path d="M9 6l6 6-6 6"/>'
+};
+
+const ic=(n,s=20,w=1.8)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
+const logo=s=>ic('cal',s,1.6);
+const DAYS=['Senin','Selasa','Rabu','Kamis','Jumat'];
+const short=d=>d.slice(0,3);
+// hari ini; akhir pekan -> tampilkan Senin berikutnya
+const jsDay=new Date().getDay();
+const todayIdx=jsDay>=1&&jsDay<=5?jsDay-1:0;
+const isWeekend=!(jsDay>=1&&jsDay<=5);
+const S={scr:'splash',cat:'Info',draft:'',perr:'',day:DAYS[todayIdx],q:'',open:null,read:false,toast:'',user:null,err:''};
+const app=document.getElementById('app');
+const go=s=>{S.scr=s;S.open=null;S.err='';draw()};
+const byDay=d=>jadwal.filter(x=>x.hari===d);
+const nav=[['home','home'],['jadwal','cal'],['cari','search'],['notif','bell']];
+const hdr=(t,back)=>`<div class="hdr"><div class="t">${back?`<button class="back" data-go="home" aria-label="Kembali">←</button>`:logo(28)}<span>${t}</span></div><button data-go="profil" aria-label="Profil">${ic('user',28,1.7)}</button></div>`;
+const bar=()=>`<nav class="nav">${nav.map(([k,i])=>`<button class="${S.scr===k?'on':''}" data-go="${k}" aria-label="${k}">${ic(i,22)}${k==='notif'&&!S.read?'<i></i>':''}</button>`).join('')}</nav>`;
+const shell=(t,body,back)=>hdr(t,back)+`<div class="panel">${body}</div>`+bar()+(S.toast?`<div class="toast">${S.toast}</div>`:'');
+const card=x=>`<div class="card item"><span class="time">${x.a}<br>${x.b}</span><div><b>${x.mk}</b><small>${x.r}</small></div></div>`;
+const esc=s=>String(s).replace(/"/g,'&quot;');
+
+const views={
+ splash:()=>`<div class="splash">${logo(46)}CLASSFINDER</div>`,
+ login:()=>`<div class="hdr" style="padding-top:34px"><div class="t">${logo(34)}<span style="font-size:26px;font-weight:800">CLASSFINDER</span></div></div>
+ <div class="panel" style="padding-top:30px"><h2 style="text-align:center;font-size:22px;font-weight:700">Login</h2>
+ <p style="font-size:12px;font-weight:600;margin-top:14px;line-height:1.5">Selamat datang kembali!<br>Siap menjalani kuliahmu hari ini?</p>
+ <div class="fld"><label for="em">Email Mahasiswa</label><div>${ic('mail',20)}<input id="em" type="email" autocomplete="email" placeholder="nim@mahasiswa.upnvj.ac.id"></div></div>
+ <div class="fld"><label for="nim">Nomor Induk Mahasiswa</label><div>${ic('id',20)}<input id="nim" inputmode="numeric" autocomplete="username" placeholder="2610414041"></div></div>
+ ${S.err?`<p class="err" role="alert">${S.err}</p>`:''}
+ <button class="login" data-act="login">Login</button>
+ <p class="hint">Khusus Kelas B Sains Informasi</p></div>`,
+ home:()=>{const t=byDay(S.day);return shell('Home',`
+ <button class="search" data-go="cari" style="text-align:center"><input placeholder="Cari Kelas" readonly tabindex="-1" style="text-align:center;cursor:pointer"></button>
+ ${banner()}<div class="stats"><button class="stat" data-go="jadwal">${ic('cal',24)}<strong>${t.length}</strong><span>${isWeekend?'Kelas Senin depan':'Kelas Hari ini'}</span></button>
+ <button class="stat" data-go="notif">${ic('bell',24)}<strong>${S.read?0:1}</strong><span>Pembaruan</span></button></div>
+ ${S.read?'':`<button class="alert" data-go="notif"><span><b>Ada Pembaruan Informasi</b><small>Lihat pengingat kelas terdekatmu.</small></span>${ic('chev',18,2.2)}</button>`}
+ <div style="display:flex;justify-content:space-between;margin-bottom:8px"><h2>Jadwal ${S.day}</h2><button data-go="jadwal" style="font-size:10.5px;opacity:.8">Lihat Semua →</button></div>
+ ${t.map(card).join('')}${mading()}`)},
+ jadwal:()=>shell('Jadwal',`<h2 style="margin-bottom:8px">Pilih hari</h2>
+ <div class="days">${DAYS.map(d=>`<button class="${S.day===d?'on':''}" data-day="${d}">${short(d)}</button>`).join('')}</div>
+ <h2 style="margin-bottom:8px">Jadwal hari ${S.day}</h2>
+ ${byDay(S.day).map(card).join('')||'<p class="empty">Tidak ada kelas hari ini.</p>'}`),
+ cari:()=>shell('Cari Kelas',`<h2>Cari Kelas</h2><p class="sub">Nama mata kuliah, hari, atau ruang</p>
+ <div class="search"><input id="q" value="${esc(S.q)}" placeholder="Contoh : Literasi Digital" aria-label="Cari kelas"><span>${ic('search',18)}</span></div>
+ <div id="res">${resHTML()}</div>`),
+ notif:()=>{const n=byDay(S.day)[0];return shell('Notifikasi',`<h2>Pusat Informasi</h2><p class="sub">Pengingat kelas terdekat</p>
+ <div style="display:flex;justify-content:space-between;margin-bottom:8px"><h2>Notifikasi</h2>${S.read?'':'<span class="badge">1 baru</span>'}</div>
+ ${n?`<div class="card"><b style="display:flex;gap:6px;align-items:center">${ic('cal',18)}Pengingat Kelas</b><small>${n.mk} dimulai pukul ${n.a} di ${n.r} (${S.day}).</small><small style="opacity:.6;margin-top:6px">${S.read?'Sudah dibaca':'Baru saja'}</small><button class="btn" data-act="read">Lihat Jadwal</button></div>`:'<p class="empty">Belum ada notifikasi.</p>'}`)},
+ profil:()=>{const u=S.user;return shell('Profile Saya',`<div class="av">${ic('user',44,1.5)}</div><div class="ctr">Halo, ${u?u.nama:'Mahasiswa'}!<small>NIM ${u?u.nim:'-'}</small><small>Sains Informasi · Kelas B</small></div>
+ <button class="menu" data-toast="Fitur edit profil belum tersedia">${ic('edit',20)}Edit Profile</button>
+ <button class="menu" data-go="notif">${ic('bell',20)}Pengaturan Notifikasi</button>
+ <button class="menu" data-toast="Pusat bantuan belum tersedia">${ic('help',20)}Pusat Bantuan</button>
+ <button class="menu" data-act="logout">${ic('out',20)}Logout</button><p class="src">Sumber data: ${source}</p>`,true)}
+};
+function resHTML(){const q=S.q.toLowerCase().trim();const r=jadwal.filter(x=>[x.mk,x.hari,x.r].some(v=>v.toLowerCase().includes(q)));
+ return r.length?r.map((c,i)=>`<div class="card"><b>${c.mk}</b><small>Kelas B · ${c.hari}</small><div class="row">${ic('cal',14)}${c.hari}, ${c.a} – ${c.b}</div><div class="row">${ic('pin',14)}${c.r}</div>
+ ${S.open===c.mk?`<div class="detail">Program studi: Sains Informasi<br>Kelas: B<br>Mahasiswa: ${students.length} orang</div>`:''}
+ <button class="more" data-open="${esc(c.mk)}">${S.open===c.mk?'Tutup':'Lihat Detail'}</button></div>`).join(''):'<p class="empty">Kelas tidak ditemukan. Coba nama mata kuliah, hari, atau ruang lain.</p>'}
+function draw(){app.innerHTML=views[S.scr]();const q=document.getElementById('q');if(q&&S._f){q.focus();q.setSelectionRange(q.value.length,q.value.length);S._f=0}}
+function login(){
+ const em=document.getElementById('em').value.trim().toLowerCase(),nim=document.getElementById('nim').value.trim();
+ const u=students.find(s=>s.nim===nim);
+ if(!u)S.err='NIM tidak terdaftar di Kelas B Sains Informasi.';
+ else if(em!==nim+'@mahasiswa.upnvj.ac.id')S.err='Email harus berformat NIM@mahasiswa.upnvj.ac.id dan sesuai NIM.';
+ else{S.user=u;return go('home')}
+ draw();
+}
+app.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+ if(d.go)return go(d.go);
+ if(d.day){S.day=d.day;return draw()}
+ if(d.open){S.open=S.open===d.open?null:d.open;S._f=1;return draw()}
+ if(d.cat){S.draft=document.getElementById('pi').value;S.cat=d.cat;return draw()}
+ if(d.share)return shareTo(d.share);
+ if(d.act==='post'){const t=document.getElementById('pi').value.trim();S.draft=t;
+  if(t.length<5){S.perr='Tulis minimal 5 karakter.';return draw()}
+  b.disabled=true;return addPost(S.cat,t).then(ok=>{S.perr=ok?'':'Gagal menyimpan. Cek koneksi lalu coba lagi.';if(ok)S.draft='';draw()})}
+ if(d.act==='login')return login();
+ if(d.act==='logout'){S.user=null;return go('login')}
+ if(d.act==='read'){S.read=true;return go('jadwal')}
+ if(d.toast){S.toast=d.toast;draw();setTimeout(()=>{S.toast='';if(S.scr==='profil')draw()},2200)}});
+app.addEventListener('input',e=>{if(e.target.id==='q'){S.q=e.target.value;document.getElementById('res').innerHTML=resHTML()}});
+draw();loadRemote();
+setInterval(()=>{const el=document.getElementById('cdt');if(!el)return;const n=nextClass();if(!n)return;
+ if(el.dataset.live!==String(n.live)&&document.activeElement.id!=='pi')return draw();el.textContent=fmt(n.sec)},1000);setTimeout(()=>{if(S.scr==='splash')go('login')},1700);
+</script>
+</body>
+</html>
